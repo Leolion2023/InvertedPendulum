@@ -3,6 +3,10 @@
 A small robot which can balance itself so it always stands up even though it only has two wheels.
 The motivation behind this is a school project which main focus is on self regulating loops. Whereas this robot was our idea.
 
+## Language
+- Primary documentation (English): [README.md](README.md)
+- German translation: [README.de.md](README.de.md)
+
 ## Contents
 
 1. [Hardware](#hardware)
@@ -76,3 +80,16 @@ Unfortunately currently only in german.
 **Both diagrams were created with the website [excalidraw.com](https://excalidraw.com).**
 
 # Operating Instructions
+
+### Electrical start
+
+The robot needs two seperate power supplies, a logic voltage and a motor supply voltage. The logic voltage can be connected through the USB-C port of the ESP32, the VIN port with 3.3V-5V or the 3.3V pin. The motor voltage needs to be connected directly to the H-Bridge in the 12V and GND connector.
+As you most likely need to calibrate the PID-SetValues, the best option is to connect the ESP32 to a computer with either PlatformIO or Arduino IDE installed.
+
+### Code adjustments
+
+There are some simple adjustments which need to be done. At the very top are the three PID constants which need to be adjusted accordingly to the robot. After that: The constraint sets the maximum value for the PID output, most likely on 255.0 perfect, this only changes that the motors dont turn too fast. The inverted variable controls the direction of the motors, if the robot doesnt turn in the correct direction change this to -1.0/1.0.
+
+### Hardware informations
+
+To built the robot you can easily use the technical drawings (which are currently in work). The only thing that should be tested is the offset in the FreeCAD files, this changes the offset of the sliders and can be used if the connections are too loose.
