@@ -12,6 +12,8 @@ Die Motivation dahinter ist ein Schulprojekt, dessen Hauptfokus auf selbstregeln
 1. [Hardware](#hardware)
     1. [Anforderungen](#anforderungen)
     2. [Pinbelegung](#pinbelegung)
+    3. [Schaltplan](#schaltplan)
+    4. [Breadboard](#breadboard)
 2. [Software](#software)
     1. [Code](#code)
     2. [Regelkreis-Diagramm](#regelkreis-diagramm)
@@ -59,6 +61,12 @@ Die Motivation dahinter ist ein Schulprojekt, dessen Hauptfokus auf selbstregeln
 |  ---   | BNO055 INT | -nicht verwendet- |
 |  ---   | BNO055 RST | -nicht verwendet- |
 |  ---   | BNO055 BOOT | -nicht verwendet- |
+
+## Schaltplan
+![Image](assets/Schematic.png)
+
+## Breadboard
+![Image](assets/BreadboardView.png)
 
 # Software
 
