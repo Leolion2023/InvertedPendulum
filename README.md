@@ -35,7 +35,7 @@ The motivation behind this is a school project which main focus is on self regul
 - ESP32
 - BNO055 9DoF Sensor²
 - H-Bridge (f.e. HW-095 L298N)
-- CAD 3D prints ([see here](...))
+- CAD 3D prints ([see here](TechDraw.pdf))
 
 
 **Notes:**
