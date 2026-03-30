@@ -22,7 +22,7 @@ Die Motivation dahinter ist ein Schulprojekt, dessen Hauptfokus auf selbstregeln
 
 - [x] Ein CAD-Modell des Roboters erstellen
 - [x] Code schreiben, damit der Roboter sich aufrecht hält
-- [] Code verbessern, damit die Kalibrierung per Smartphone möglich ist
+- [ ] Code verbessern, damit die Kalibrierung per Smartphone möglich ist
     - Per BLE mit einer App verbinden ODER
     - Einen Webserver im eigenen WLAN öffnen
 
@@ -34,11 +34,12 @@ Die Motivation dahinter ist ein Schulprojekt, dessen Hauptfokus auf selbstregeln
 - ESP32
 - BNO055 9DoF Sensor²
 - H-Bridge (z. B. HW-095 L298N)
-- CAD-3D-Druckteile ([siehe hier](...))
+- CAD-3D-Druckteile ([siehe hier](TechDraw.pdf))³
 
 **Hinweise:**
 1. Die Schrauben sind vom verwendeten Getriebemotor abhängig.
 2. Wir haben dieses selbst erstellte [Wiki](https://github.com/Leolion2023/BNO055) genutzt, weil die Bosch-Dokumentation schwer verständlich ist.
+3. Falls es Probleme bei der Anzeige der technischen Zeichnung gibt, lade die Datei bitte herunter und öffne sie in einem modernen PDF-Viewer.
 
 ## Pinbelegung
 
@@ -85,8 +86,8 @@ Da du die PID-Werte wahrscheinlich kalibrieren musst, ist es am einfachsten, den
 
 ### Code-Anpassungen
 
-Es gibt einige einfache Anpassungen, die vorgenommen werden müssen. Ganz oben stehen die drei PID-Konstanten, die auf den Roboter abgestimmt werden müssen. Danach gilt: Das Constraint begrenzt den Maximalwert des PID-Ausgangs, typischerweise ist 255.0 sinnvoll. Dadurch drehen die Motoren nicht zu schnell. Die Variable inverted steürt die Drehrichtung der Motoren. Falls der Roboter in die falsche Richtung regelt, ändere sie auf -1.0 oder 1.0.
+Es gibt einige einfache Anpassungen, die vorgenommen werden müssen. Ganz oben stehen die drei PID-Konstanten, die auf den Roboter abgestimmt werden müssen. Danach gilt: Das Constraint begrenzt den Maximalwert des PID-Ausgangs. Typischerweise ist 255.0 sinnvoll. Dadurch drehen die Motoren nicht zu schnell. Die Variable `inverted` steuert die Drehrichtung der Motoren. Falls der Roboter in die falsche Richtung regelt, ändere sie auf -1.0 oder 1.0.
 
 ### Hardware-Informationen
 
-Zum Bau des Roboters kannst du einfach die technischen Zeichnungen verwenden (diese sind aktüll noch in Arbeit). Das Einzige, was getestet werden sollte, ist der Offset in den FreeCAD-Dateien. Damit wird der Versatz der Slider angepasst und er kann genutzt werden, wenn Verbindungen zu locker sind.
+Zum Bau des Roboters kannst du einfach die technischen Zeichnungen verwenden (diese sind aktuell noch in Arbeit). Das Einzige, was getestet werden sollte, ist der Offset in den FreeCAD-Dateien. Damit wird der Versatz der Slider angepasst und er kann genutzt werden, wenn Verbindungen zu locker sind.

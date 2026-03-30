@@ -22,7 +22,7 @@ The motivation behind this is a school project which main focus is on self regul
 
 - [x] Create a CAD Model of the robot
 - [x] Code to simply drive the robot so it always stands up
-- [] Improve the code so it can be calibrated with phone
+- [ ] Improve the code so it can be calibrated with phone
     - Make it with BLE connect to an app OR
     - It opens a webserver in it's own WiFi
 
@@ -35,12 +35,13 @@ The motivation behind this is a school project which main focus is on self regul
 - ESP32
 - BNO055 9DoF Sensor²
 - H-Bridge (f.e. HW-095 L298N)
-- CAD 3D prints ([see here](TechDraw.pdf))
+- CAD 3D prints ([see here](TechDraw.pdf))³
 
 
 **Notes:**
 1. The screws depend on the gearmotor you use.
 2. We used this self-created [wiki](https://github.com/Leolion2023/BNO055) to use this sensor as the documentation of Bosch is pretty bad.
+3. If you have issues on the page of the Attachment please download the file and open it in a modern pdf viewer.
 
 ## Pinout
 
