@@ -23,10 +23,21 @@ Die Motivation dahinter ist ein Schulprojekt, dessen Hauptfokus auf selbstregeln
 ## To Do
 
 - [x] Ein CAD-Modell des Roboters erstellen
+- [x] Verbindungen der Bauteile stabiler gestalten (basierend auf 3 Prototypen um so reliabel wie möglich zu gestalten, sichtbar in [Prototypen](/assets/Prototypes.jpg))
+- [x] Ressourcensparender designen
+- [x] Weniger Bauteile und somit einfacheres zusammenbauen und stabileres Halten
+- [x] Feste Sensorhalterung in Platinenhalterung für stabile Werte
+- [x] Rutschfeste Reifen designen
+- [x] Verwenden der Platine aus einem alten Projekt um Ressourcen zu recyclen
 - [x] Code schreiben, damit der Roboter sich aufrecht hält
 - [ ] Code verbessern, damit die Kalibrierung per Smartphone möglich ist
-    - Per BLE mit einer App verbinden ODER
-    - Einen Webserver im eigenen WLAN öffnen
+    - [] Per BLE mit einer App verbinden ODER
+    - [] Einen Webserver im eigenen WLAN öffnen
+- [] leichtes Kippen verhindern
+    --> könnte an PID-Regelung liegen (nicht in der Lage kleine Winkel auszugleichen¹)
+
+**Hinweise:**
+1. Code unterbindet reagieren des Systems bei kleinen Winkel, jedoch wurde auch getestet ohne diese Hysterese und es funktionierte trotzdem nicht, da bei einem Winkel von ~1-2 Grad ein Output von wenigen Watt an den Motor kommt. Das würde nicht ausreichen um das auszugleichen --> hier müsste also eine Anpassung geschrieben werden, welche aggressiver auf kleine Werte reagiert.  
 
 # Hardware
 ## Anforderungen
@@ -36,7 +47,7 @@ Die Motivation dahinter ist ein Schulprojekt, dessen Hauptfokus auf selbstregeln
 - ESP32
 - BNO055 9DoF Sensor²
 - H-Bridge (z. B. HW-095 L298N)
-- CAD-3D-Druckteile ([siehe hier](TechDraw.pdf))³
+- CAD-3D-Druckteile ([siehe hier](TechDrawRework.pdf))³
 
 **Hinweise:**
 1. Die Schrauben sind vom verwendeten Getriebemotor abhängig.

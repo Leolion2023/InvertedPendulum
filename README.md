@@ -23,10 +23,21 @@ The motivation behind this is a school project whose main focus is on self-regul
 ## To Do
 
 - [x] Create a CAD Model of the robot
+- [x] Make the mechanical connections more stable, based on 3 prototypes for maximum reliability, visible in [Prototypes](assets/Prototypes.jpg)
+- [x] Design it to use fewer resources
+- [x] Use fewer parts for easier assembly and more stable holding
+- [x] Add a fixed sensor mount in the PCB holder for stable readings
+- [x] Design non-slip tires
+- [x] Reuse the board from an old project to recycle resources
 - [x] Code to simply drive the robot so it always stands up
 - [ ] Improve the code so it can be calibrated using a phone
-    - Connect via BLE to an app OR
-    - Open a webserver on its own WiFi
+    - [ ] Connect via BLE to an app OR
+    - [ ] Open a webserver on its own WiFi
+- [ ] Prevent slight tilting
+    - Could be related to the PID control; the system may not be able to compensate for small angles¹
+
+**Notes:**
+1. The code prevents the system from reacting to small angles, but it was also tested without this hysteresis and still did not work. At an angle of about 1-2 degrees, the output to the motors is only a few watts, which is not enough to compensate. This would require a more aggressive response to small values.
 
 # Hardware
 ## Requirements
@@ -36,7 +47,7 @@ The motivation behind this is a school project whose main focus is on self-regul
 - ESP32
 - BNO055 9DoF Sensor²
 - H-Bridge (e.g. HW-095 L298N)
-- CAD 3D prints ([see here](TechDraw.pdf))³
+- CAD 3D prints ([see here](TechDrawRework.pdf))³
 
 
 **Notes:**
