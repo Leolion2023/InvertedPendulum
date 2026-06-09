@@ -1,113 +1,150 @@
-## InvertedPendulum
-### Concept Idea
-A small robot which can balance itself so it always stands up even though it only has two wheels.
-The motivation behind this is a school project whose main focus is on self-regulating control loops. This robot was our project idea.
+# InvertedPendulum
+## Concept Idea
+A small robot capable of balancing itself so that it remains upright despite having only two wheels.
+The motivation behind this is a school project, with the main focus on self-regulating control loops. This robot was our idea for the project.
+
+---
 
 ## Language
-- Primary documentation (English): [README.md](README.md)
-- German translation: [README.de.md](README.de.md)
+- Primary Documentation (English): [README.md](README.md)
+- German Version: [README.de.md](README.de.md)
 
-## Contents
+---
+
+## Table of Contents
 
 1. [Hardware](#hardware)
-    1. [Requirements](#requirements)
-    2. [Pinout](#pinout)
-    3. [Schematic](#schematic)
-    4. [Breadboard](#breadboard)
+   1. [Requirements](#requirements)
+   2. [Pinout](#pinout)
+   3. [Schematic](#schematic)
+   4. [Breadboard](#breadboard)
 2. [Software](#software)
-    1. [Code](#code)
-    2. [Control Loop Diagram](#control-loop-diagram)
-    3. [Program Flow Chart](#program-flowchart)
+   1. [Code](#code)
+   2. [Control Loop Diagram](#control-loop-diagram)
+   3. [Program Flowchart](#program-flowchart)
 3. [Operating Instructions](#operating-instructions)
+
+---
 
 ## To Do
 
-- [x] Create a CAD Model of the robot
-- [x] Make the mechanical connections more stable, based on 3 prototypes for maximum reliability, visible in [Prototypes](assets/Prototypes.jpg)
-- [x] Design it to use fewer resources
-- [x] Use fewer parts for easier assembly and more stable holding
-- [x] Add a fixed sensor mount in the PCB holder for stable readings
+- [x] Create a CAD model of the robot
+- [x] Make component connections more stable (based on 3 prototypes to ensure maximum reliability, see [Prototypes](/assets/Prototypes.jpg))
+- [x] Design for resource efficiency
+- [x] Use fewer components for easier assembly and more stable holding
+- [x] Fixed sensor mounting on the PCB for stable readings
 - [x] Design non-slip tires
-- [x] Reuse the board from an old project to recycle resources
-- [x] Code to simply drive the robot so it always stands up
-- [ ] Improve the code so it can be calibrated using a phone
-    - [ ] Connect via BLE to an app OR
-    - [ ] Open a webserver on its own WiFi
+- [x] Reuse PCB from an old project to recycle resources
+- [x] Write code to keep the robot upright
+- [ ] Improve code to enable calibration via smartphone
+   - [ ] Connect via BLE to an app **OR**
+   - [ ] Open a web server on the local Wi-Fi network
 - [ ] Prevent slight tilting
-    - Could be related to the PID control; the system may not be able to compensate for small angles¹
+   - Could be related to PID control (unable to compensate for small angles¹)
+- [ ] Consider additional parameters in control
+   - For example, preventing the robot from covering large distances (or doing so intentionally). Additionally, unintended rotation could be compensated for or controlled.
 
 **Notes:**
-1. The code prevents the system from reacting to small angles, but it was also tested without this hysteresis and still did not work. At an angle of about 1-2 degrees, the output to the motors is only a few watts, which is not enough to compensate. This would require a more aggressive response to small values.
+1. The code prevents the system from reacting to small angles. However, testing without this hysteresis also failed, as a ~1-2 degree angle only results in a few watts of output to the motor, which is insufficient for compensation. An adjustment should be written to react more aggressively to small values.
+
+---
 
 # Hardware
 ## Requirements
 
-- 2 x Gearmotors ~600 RPM
-    - 2 x M3 Screws 7.3mm  --> countersunk head (flat head)¹
+- 2 x geared motors ~600 RPM
+   - 2 x M3 screws, 7.3 mm (flat head/countersunk¹)
 - ESP32
 - BNO055 9DoF Sensor²
-- H-Bridge (e.g. HW-095 L298N)
-- CAD 3D prints ([see here](TechDrawRework.pdf))³
-
+- H-Bridge (e.g., HW-095 L298N)
+- CAD 3D-printed parts ([see here](TechDrawRework.pdf))³
 
 **Notes:**
-1. The screws depend on the gearmotor you use.
-2. We used this self-created [wiki](https://github.com/Leolion2023/BNO055) for this sensor because Bosch's documentation is hard to follow.
-3. If you have issues viewing the technical drawing in the browser, please download the file and open it in a modern PDF viewer.
+1. The screw type depends on the geared motor used.
+2. We used this [self-created wiki](https://github.com/Leolion2023/BNO055) because the Bosch documentation is difficult to understand.
+3. If you have issues displaying the technical drawing, please download the file and open it in a modern PDF viewer.
 
+---
 ## Pinout
 
-| ESP32 Pin | Function | Additional |
-|---|---|---|
-| GPIO16 | H-Bridge IN1 | Used for Motor 1 |
-| GPIO17 | H-Bridge IN2 | Used for Motor 1 |
-| GPIO23 | H-Bridge ENA | Used for Motor 1 |
-| GPIO18 | H-Bridge IN3 | Used for Motor 2 |
-| GPIO19 | H-Bridge IN4 | Used for Motor 2 |
-| GPIO33 | H-Bridge ENB | Used for Motor 2 |
-| GPIO21 | BNO055 SDA | |
-| GPIO22 | BNO055 SCL | |
-|  3.3V  | BNO055 VIN | |
-|   GND  | BNO055 GND | |
-|   GND  | BNO055 ADD | |
-|  ---   | BNO055 INT | -not used- |
-|  ---   | BNO055 RST | -not used- |
-|  ---   | BNO055 BOOT | -not used- |
+| ESP32 Pin | Function          | Additional Info               |
+|-----------|-------------------|--------------------------------|
+| GPIO16    | H-Bridge IN1      | Used for Motor 1               |
+| GPIO17    | H-Bridge IN2      | Used for Motor 1               |
+| GPIO23    | H-Bridge ENA      | Used for Motor 1 (PWM)         |
+| GPIO18    | H-Bridge IN3      | Used for Motor 2               |
+| GPIO19    | H-Bridge IN4      | Used for Motor 2               |
+| GPIO33    | H-Bridge ENB      | Used for Motor 2 (PWM)         |
+| GPIO21    | BNO055 SDA        |                                |
+| GPIO22    | BNO055 SCL        |                                |
+| 3.3V      | BNO055 VIN        |                                |
+| GND       | BNO055 GND        |                                |
+| GND       | BNO055 ADD        |                                |
+| ---       | BNO055 INT        | *Not used*                     |
+| ---       | BNO055 RST        | *Not used*                     |
+| ---       | BNO055 BOOT       | *Not used*                     |
 
+---
 ## Schematic
 ![Image](assets/Schematic.png)
 
+---
 ## Breadboard
 ![Image](assets/BreadboardView.png)
 
+---
 # Software
 
+---
 ## Code
-The main code is in [src/src/main.cpp](src/src/main.cpp).
-We used PlatformIO to flash the ESP32. Adapt it to your needs as required.
+The main code is located in [src/src/main.cpp](src/src/main.cpp).
+We used PlatformIO to flash the ESP32. Adjust as needed to fit your requirements.
 
-## Control loop diagram
-
+---
+## Control Loop Diagram
 ![Image](assets/ControlLoopDiagram.png)
 
+---
 ## Program Flowchart
-Unfortunately, currently only in German.
+Currently only available in German.
 
 ![Image](assets/ProgramFlowchart.png)
 
-**Both diagrams were created with the website [excalidraw.com](https://excalidraw.com).**
+**Both diagrams were created using [excalidraw.com](https://excalidraw.com).**
 
+---
 # Operating Instructions
 
-### Electrical start
+---
+### Electrical Startup
 
-The robot needs two separate power supplies: a logic voltage and a motor supply voltage. The logic voltage can be connected through the USB-C port of the ESP32, the VIN pin with 3.3V-5V, or the 3.3V pin. The motor voltage needs to be connected directly to the H-Bridge at the 12V and GND connector.
-As you will most likely need to calibrate the PID set values, the best option is to connect the ESP32 to a computer with either PlatformIO or Arduino IDE installed.
+The robot requires two separate power supplies: one for logic voltage and one for motor voltage. The logic voltage can be provided via the ESP32’s USB-C port, the VIN pin (3.3V–5V), or the 3.3V pin. However, we recommend using the connector on the PCB directly next to the ESP32. The motor voltage must be connected either directly to the H-Bridge at the 12V and GND terminals or to the main power supply on the PCB.
 
-### Code adjustments
+Since you will likely need to calibrate the PID values, the easiest way is to connect the ESP32 to a computer with either PlatformIO or the Arduino IDE installed:
 
-There are some simple adjustments that need to be done. At the very top are the three `PID constants`, which must be tuned for your robot. The `constraint` sets the maximum value for the PID output; `255.0` is usually fine and mainly limits motor speed. The `inverted` variable controls the motor direction. If the robot drives in the wrong direction, change it to `-1.0` or `1.0`.
+**For PlatformIO:**
+1. Install PlatformIO on your laptop/PC/etc.
+2. Install the custom library for BNO055 (linked above) or the official Bosch library (no guarantee of updates).
+3. Adjust the code as described in the next section.
+4. Place the robot on a level surface so the wheels are not touching the ground (for initial calibration).
+5. Connect the ESP32 and upload the code.
 
-### Hardware information
+**For Arduino IDE:**
+1. Install Arduino IDE.
+2. Install the library ([either via Arduino Library Manager or as a file](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries/)).
+3. Adjust the code as described in the next section.
+4. Place the robot on a level surface so the wheels are not touching the ground (for initial calibration).
+5. Connect the ESP32 and upload the code.
 
-To build the robot, you can use the technical drawings. The only thing that should be tested is the offset in the FreeCAD files. This changes the offset of the sliders and can be used if the connections are too loose.
+---
+### Code Adjustments
+
+There are a few simple adjustments to be made. At the top, you’ll find the three PID constants, which need to be tuned for your robot. The `constraint` limits the maximum output of the PID controller. Typically, 255.0 is reasonable, as it is the maximum PWM value. The `minConstraint` prevents the motors from spinning at low power, as rapid toggling of the power supply can damage the motors. The `inverted` variable controls the motor rotation direction. If the robot regulates in the wrong direction, change it to `-1.0` or `1.0`.
+
+---
+### Hardware Information
+
+To build the robot, you can simply use the technical drawings. Minor adjustments to the variables in the CAD files can improve the connections but may also introduce errors.
+
+**Notes:**
+1. We currently have the motors connected in parallel to one channel of the H-Bridge, as they otherwise rotated differently. This could also be balanced by code that reads the other dimensions of the BNO055 and attempts to prevent rotation.

@@ -34,7 +34,9 @@ Die Motivation dahinter ist ein Schulprojekt, dessen Hauptfokus auf selbstregeln
     - [] Per BLE mit einer App verbinden ODER
     - [] Einen Webserver im eigenen WLAN öffnen
 - [] leichtes Kippen verhindern
-    --> könnte an PID-Regelung liegen (nicht in der Lage kleine Winkel auszugleichen¹)
+    - könnte an PID-Regelung liegen (nicht in der Lage kleine Winkel auszugleichen¹)
+- [] Weitere Parameter bei Regelung beachten
+    - So könnte z.B. verhindert werden, dass der Roboter große Distanzen zurücklegt (oder dies bewusst tut). Außerdem könnte das ungewollte drehen ausgeglichen werden, oder gesteuert werden
 
 **Hinweise:**
 1. Code unterbindet reagieren des Systems bei kleinen Winkel, jedoch wurde auch getestet ohne diese Hysterese und es funktionierte trotzdem nicht, da bei einem Winkel von ~1-2 Grad ein Output von wenigen Watt an den Motor kommt. Das würde nicht ausreichen um das auszugleichen --> hier müsste also eine Anpassung geschrieben werden, welche aggressiver auf kleine Werte reagiert.  
@@ -100,13 +102,30 @@ Derzeit leider nur auf Deutsch verfügbar.
 
 ### Elektrischer Start
 
-Der Roboter benötigt zwei getrennte Spannungsversorgungen: eine Logikspannung und eine Motorspannung. Die Logikspannung kann über den USB-C-Anschluss des ESP32, den VIN-Pin mit 3.3V-5V oder den 3.3V-Pin bereitgestellt werden. Die Motorspannung muss direkt an der H-Bridge am 12V- und GND-Anschluss angeschlossen werden.
-Da du die PID-Werte wahrscheinlich kalibrieren musst, ist es am einfachsten, den ESP32 mit einem Computer zu verbinden, auf dem entweder PlatformIO oder die Arduino IDE installiert ist.
+Der Roboter benötigt zwei getrennte Spannungsversorgungen: eine Logikspannung und eine Motorspannung. Die Logikspannung kann über den USB-C-Anschluss des ESP32, den VIN-Pin mit 3.3V-5V oder den 3.3V-Pin bereitgestellt werden, empfohlen wird jedoch der Anschluss auf der Platine direkt neben dem ESP Oben. Die Motorspannung muss entweder direkt an der H-Bridge am 12V- und GND-Anschluss angeschlossen werden, oder auf der Platine auf der Hauptspannungsversorgung.
+Da du die PID-Werte wahrscheinlich kalibrieren musst, ist es am einfachsten, den ESP32 mit einem Computer zu verbinden, auf dem entweder PlatformIO oder die Arduino IDE installiert ist:
+
+**Für PlatformIO:**
+1. PlatformIO auf Laptop/PC/etc installieren
+2. CustomLibrary für BNO055 installieren (oben verlinkt), oder offizielle von Bosch (keine Garantie auf Updates)
+3. Code, wie in folgendem Kapitel anpassen
+4. Roboter auf Ebene Fläche stellen, sodass Reifen nicht auf dem Boden stehen (für Kalibrierung am Anfang)
+5. ESP32 anschließen und hochladen
+
+**Für ArduinoIDE:**
+1. Arduino IDE installieren
+2. Bibliothek installieren ([entweder über Bibliotheken von Arduino oder als Datei](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries/))
+3. Code, wie in folgendem Kapitel anpassen
+4. Roboter auf Ebene Fläche stellen, sodass Reifen nicht auf dem Boden stehen (für Kalibrierung am Anfang)
+5. ESP32 anschließen und hochladen
 
 ### Code-Anpassungen
 
-Es gibt einige einfache Anpassungen, die vorgenommen werden müssen. Ganz oben stehen die drei PID-Konstanten, die auf den Roboter abgestimmt werden müssen. Danach gilt: Das Constraint begrenzt den Maximalwert des PID-Ausgangs. Typischerweise ist 255.0 sinnvoll. Dadurch drehen die Motoren nicht zu schnell. Die Variable `inverted` steuert die Drehrichtung der Motoren. Falls der Roboter in die falsche Richtung regelt, ändere sie auf -1.0 oder 1.0.
+Es gibt einige einfache Anpassungen, die vorgenommen werden müssen. Ganz oben stehen die drei PID-Konstanten, die auf den Roboter abgestimmt werden müssen. Danach gilt: Das Constraint begrenzt den Maximalwert des PID-Ausgangs. Typischerweise ist 255.0 sinnvoll, da das der Maximalwert von PWM ist. Der MinimalConstraint verhindert, dass sich die Motoren bei geringer Leistung drehen, da dies dem Motor schaden kann, durch das schnelle ein-/ausschalten der Stromversorgung. Die Variable `inverted` steuert die Drehrichtung der Motoren. Falls der Roboter in die falsche Richtung regelt, ändere sie auf -1.0 oder 1.0.
 
 ### Hardware-Informationen
 
-Zum Bau des Roboters kannst du einfach die technischen Zeichnungen verwenden (diese sind aktuell noch in Arbeit). Das Einzige, was getestet werden sollte, ist der Offset in den FreeCAD-Dateien. Damit wird der Versatz der Slider angepasst und er kann genutzt werden, wenn Verbindungen zu locker sind.
+Zum Bau des Roboters kannst du einfach die technischen Zeichnungen verwenden. Kleine Anpassungen an den Variablen der CAD Dateien können die Verbindungen noch verbessern, können allerdings auch zu Fehlern führen.
+
+**Hinweise:**
+1. Wir haben die Motoren aktuell parallel geschalten auf einem Channel der H-Brücke, da die Motoren sich bei uns sonst unterschiedlich gedreht haben. Dies könnte außerdem ausgeglichen werden durch Code der auch die anderen Dimensionen des BNO055 abruft und so versucht auf einer Stelle zu bleiben.
