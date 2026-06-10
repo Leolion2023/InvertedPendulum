@@ -4,12 +4,12 @@
 
 // Define PID constants
 #define kP 20.0
-#define kI 0.0
+#define kI 2.0
 #define kD 2.0
 
 #define inverted 1.0 // Variable to control motor direction, can be set to -1.0 to invert controls
 #define constraint 255.0 // Maximum absolute value for PID output, used to constrain motor speeds
-#define min_constraint 50.0 // Minimum constraint to ensure motors receive enough power to move
+#define min_constraint 0.0 // Minimum constraint to ensure motors receive enough power to move
 
 // Define motor control pins
 #define IN1 16
@@ -100,7 +100,7 @@ void loop() {
   analogWrite(PWMB, motor_speed);
   // Serial.println((String)"Error: " + error + " | Motor Speed: " + motor_speed);
   // Control motor direction based on the sign of the PID error
-  if (error >= 15 && error <= 15) { // If the error is small, stop the motors
+  if (error >= 0 && error <= 0) { // If the error is small, stop the motors
     digitalWrite(IN1, LOW);
     digitalWrite(IN2, LOW);
     digitalWrite(IN3, LOW);
