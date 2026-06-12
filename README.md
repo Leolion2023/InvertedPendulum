@@ -47,6 +47,12 @@ The motivation behind this is a school project, with the main focus on self-regu
 **Notes:**
 1. The code prevents the system from reacting to small angles. However, testing without this hysteresis also failed, as a ~1-2 degree angle only results in a few watts of output to the motor, which is insufficient for compensation. An adjustment should be written to react more aggressively to small values.
 
+## Updates
+
+`
+In the first version of the model, the joints were equipped with sliders. These were intended to simplify assembly, but unfortunately it quickly became apparent that they came apart too easily when subjected to even a little too much force. We resolved this issue by designing new joints that were significantly more stable and in which all degrees of freedom were locked in place by a snap-fit mechanism. We also combined various smaller components into larger assemblies, which also provided greater stability. The old versions can be viewed in the Git history. 
+`
+
 ---
 
 # Hardware

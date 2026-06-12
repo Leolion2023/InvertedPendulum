@@ -39,7 +39,13 @@ Die Motivation dahinter ist ein Schulprojekt, dessen Hauptfokus auf selbstregeln
     - So könnte z.B. verhindert werden, dass der Roboter große Distanzen zurücklegt (oder dies bewusst tut). Außerdem könnte das ungewollte drehen ausgeglichen werden, oder gesteuert werden
 
 **Hinweise:**
-1. Code unterbindet reagieren des Systems bei kleinen Winkel, jedoch wurde auch getestet ohne diese Hysterese und es funktionierte trotzdem nicht, da bei einem Winkel von ~1-2 Grad ein Output von wenigen Watt an den Motor kommt. Das würde nicht ausreichen um das auszugleichen --> hier müsste also eine Anpassung geschrieben werden, welche aggressiver auf kleine Werte reagiert.  
+1. Code unterbindet reagieren des Systems bei kleinen Winkel, jedoch wurde auch getestet ohne diese Hysterese und es funktionierte trotzdem nicht, da bei einem Winkel von ~1-2 Grad ein Output von wenigen Watt an den Motor kommt. Das würde nicht ausreichen um das auszugleichen --> hier müsste also eine Anpassung geschrieben werden, welche aggressiver auf kleine Werte reagiert.
+
+## Erneuerungen
+
+`
+In der ersten Version des Modells waren die Verbindungen mit Slidern ausgestattet. Diese sollten das zusammenbauen vereinfachen, leider stellte sich schnell heraus, dass diese bei etwas zu viel Kraft sich zu einfach lösten. Dieses Problem behoben wir indem wir neue Verbindungen designten die deutlich stabiler waren und alle Freiheitsgrade unterbunden waren durch einen Einrastmechanismus. Außerdem haben wir verschiedene Unterbauteile verbunden zu größeren Bauteilen, welche auch für mehr Stabilität sorgten. Die alten Versionen können in der git history eingesehen werden. 
+`
 
 # Hardware
 ## Anforderungen
